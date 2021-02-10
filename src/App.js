@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './index.css';
+import { BrowserRouter, Route } from 'react-router-dom';
+import ListingScreen from './screens/ListingScreen';
+import HomeScreen from './screens/HomeScreen';
+import Header from './components/Header';
+import RegisterScreen from './screens/RegisterScreen';
+import SigninScreen from './screens/SigninScreen';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    
+    return (
+        <BrowserRouter>
+        <div className="grid-container">
 
+            <Header />
+
+            <main>
+                <Route path="/listings/:id" component={ListingScreen} />
+                <Route path="/" component={HomeScreen} exact />
+                <Route path="/register" component={RegisterScreen} />
+                <Route path="/signin" component={SigninScreen} />
+            </main>
+
+            <footer>
+                All right reserved
+            </footer>
+    </div>
+    </BrowserRouter>                                
+    );
+}
 export default App;
