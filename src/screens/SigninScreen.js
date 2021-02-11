@@ -9,24 +9,34 @@ export default function SigninScreen(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const redirect = props.location.search
-        ? props.location.search.split('=')[1]
-        : '/';
+    // const redirect = props.location.search
+    //     ? props.location.search.split('=')[1]
+    //     : '/';
 
     
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
+    const redirectLink = useSelector((state) => state.redirectLink);
+    const { redirect } = redirectLink;
 
     const dispatch = useDispatch();
     const submitHandler = (event) => {
         event.preventDefault();
         dispatch(SignIn(email,password))
     }
+
+
     useEffect(() => {
         if (userInfo) {
-            props.history.push(redirect);
+            history.push(redirect);
         }
-      }, [props.history, redirect, userInfo]);
+    },[redirect,userInfo,history])
+    // useEffect(() => {
+    //     if (userInfo) {
+    //         console.log(props.redirect)
+    //         history.push(props.redirect);
+    //     }
+    //   }, [userInfo,history,props.redirect]);
 
     return (
         <div className="signin-container">

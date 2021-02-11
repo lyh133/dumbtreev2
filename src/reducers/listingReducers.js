@@ -24,9 +24,9 @@ export const ListingPageReducer = (state = { listing: [] }, action) => {
         case LISTING_ID_REQUEST:
             return {loading: true};
         case LISTING_ID_SUCCESS:
-            return {loading: false, listing: action.payload};
+            return {loading: false, listing: action.payload, redirect: '/listings/'+action.payload._id};
         case LISTING_ID_FAIL:
-            return {loading: false, error: action.payload}
+            return {loading: false, error: action.payload, redirect: '/listings/'+action.payload._id}
         default:
             return state
     }

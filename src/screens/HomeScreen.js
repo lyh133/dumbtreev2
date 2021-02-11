@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import Listing from '../components/Listing';
 import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';
@@ -13,15 +13,49 @@ export default function HomeScreen() {
     const history = useHistory();
     const homeListings = useSelector((state) => state.homeListings);
     const { loading, error, listings } = homeListings;
+    
 
-    const refreshPage = ()=>{
-        window.location.reload();
-     }
-
+    //activeTab is to change tab button styles 
+    const [activeTab, setactiveTab] = useState(1);
+    //renderListing is to change the content of tabs
+    const [renderListings, SetRenderListings] = useState([]);
+ 
     useEffect(() => {
         dispatch( Listings_all());
     },[dispatch]);
 
+    useEffect(() => {
+        SetRenderListings(listings);
+    },[listings]);
+
+    //active the view history tab
+    const ActiveRecentViewed = () => {
+        setactiveTab(2);
+        //get recent viewed listings from storage
+        if(JSON.parse(localStorage.getItem("viewHistory"))){
+            SetRenderListings(listings.filter( (i) => { return JSON.parse(localStorage.getItem("viewHistory").includes(i._id)) } ))
+        } else{
+            SetRenderListings([]);
+        }
+    }
+
+    const ActiveGallery = () => {
+        setactiveTab(1);
+        SetRenderListings(listings);
+    }
+
+    const ActiveWatchlist = () => {
+        setactiveTab(3);
+        //get watched listings from storage
+        if(JSON.parse(localStorage.getItem("watch_List"))){
+            SetRenderListings(listings.filter( (i) => { return JSON.parse(localStorage.getItem("watch_List").includes(i._id)) } ))
+        } else{
+            SetRenderListings([]);
+        }
+    }
+    const refreshPage = ()=>{
+        window.location.reload();
+     }
     return (
         <>
         <div className='main-panel'>
@@ -35,17 +69,29 @@ export default function HomeScreen() {
             <div className='item-tabs'>
                 <ul>
                     <li>
-                        <a>HomePage Gallery</a>
+                        <div 
+                            className={activeTab === 1 ? 'tab-active' : null} 
+                            onClick={ ActiveGallery }>
+                            HomePage Gallery
+                        </div>
                     </li>
                 </ul>
                 <ul>
                     <li>
-                        <a>Recently Viewed</a>
+                        <div 
+                            className={activeTab === 2 ? 'tab-active' : null}
+                            onClick={ ActiveRecentViewed }>
+                            Recently Viewed
+                        </div>
                     </li>
                 </ul>
                 <ul>
                     <li>
-                        <a>Watchlist</a>
+                        <div 
+                        className={activeTab === 3 ? 'tab-active' : null}
+                            onClick={ ActiveWatchlist  }>
+                            Watchlist
+                        </div>
                     </li>
                 </ul>
 
@@ -53,11 +99,13 @@ export default function HomeScreen() {
             {loading ? (<LoadingBox />)                 
                 : 
                 error ? (<MessageBox variant="danger">{error}</MessageBox>)
-                : (<div className='main_content-container'>
+                : 
+                renderListings ?
+                (<div className='main_content-container'>
 
                         <div className='main-content'>
 
-                            {listings.map(
+                            {renderListings.map(
                                 (listing) => (
                                     <Listing key={listing._id} listing = {listing }></Listing>
                                 )
@@ -66,6 +114,7 @@ export default function HomeScreen() {
                         </div>
                     </div>
                 )
+                : null
                 
             }
 

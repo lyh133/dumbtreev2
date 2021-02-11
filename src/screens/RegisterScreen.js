@@ -7,16 +7,16 @@ import { Link } from 'react-router-dom';
 import { Register,SignIn } from '../actions/userActions';
 export default function RegisterScreen(props) {
 
-
+    const history = useHistory();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
-    const redirect = props.location.search
-    ? props.location.search.split('=')[1]
-    : '/';
+
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
+    const redirectLink = useSelector((state) => state.redirectLink);
+    const { redirect } = redirectLink;
     const dispatch = useDispatch();
     const submitHandler = (event) => {
         event.preventDefault();
@@ -26,11 +26,12 @@ export default function RegisterScreen(props) {
             alert('Password and comfirm pasword don\'t match');
         }
     }
+
     useEffect(() => {
         if (userInfo) {
-            props.history.push(redirect);
+            history.push(redirect);
         }
-      }, [props.history, redirect, userInfo]);
+    },[redirect,userInfo,history])
     return (
         <div className="register-container">
             <Header2 />

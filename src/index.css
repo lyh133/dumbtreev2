@@ -292,16 +292,20 @@ i:hover{
     margin-bottom: 30px;
 }
 
-.item-tabs ul li a{
+.item-tabs ul li div{
     display: block;
     padding: 40px 40px 10px 40px;
     text-decoration: none;
-    color: black;
     font-weight: bold;
+    cursor: pointer;
     
 }
-.item-tabs ul li a:hover{
-    color:rgb(104, 255, 99);
+.item-tabs ul li div:hover{
+    color:rgb(77, 190, 73);
+    border-bottom: 2px solid currentColor;
+}
+.tab-active {
+    color:rgb(77, 190, 73);
     border-bottom: 2px solid currentColor;
 }
 
@@ -405,7 +409,9 @@ i:hover{
     right: 13px;
     bottom: 5px;
     -webkit-text-stroke: 0.8px white;
-
+}
+.watched {
+    color:red
 }
 
 

@@ -9,6 +9,7 @@ import {
     homeListingReducer,
     ListingPageReducer,
 } from './reducers/listingReducers';
+import { redirectLinkReducer } from './reducers/redirectReducers';
 import {
     userSigninReducer
 } from './reducers/userReducers';
@@ -16,12 +17,14 @@ const initialState = {
     userSignin: {
         userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
     }
+    
 
 };
 const reducer = combineReducers({
     homeListings: homeListingReducer,
     ListingPage: ListingPageReducer,
     userSignin: userSigninReducer,
+    redirectLink: redirectLinkReducer
 })
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

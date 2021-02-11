@@ -11,10 +11,17 @@ export default function Header(props) {
 
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
-
+    // const redirectLink = useSelector((state) => state.redirectLink);
+    // const { redirect } = redirectLink;
     const signoutHandle = () => {
         dispatch(SignOut());
     }
+    // const [redirect_link,setRedirect] = useState('/');
+
+    // useEffect(() => {
+    //     setRedirect(redirect)
+    // },[redirect])
+
     return (
 
 
@@ -36,8 +43,8 @@ export default function Header(props) {
                 )
                 : (
                     <div className="header-auth">
-                        <Link to='/signin'>Sign in</Link>
-                        <Link to='/register'>Register</Link>
+                        <Link to='/signin' >Sign in</Link>
+                        <Link to='/register' >Register</Link>
                         <div id='mydumbtree'>
                             <i class="fas fa-user-circle fa-lg"></i>
                             My Dumbtree
