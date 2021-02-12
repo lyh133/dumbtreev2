@@ -6,7 +6,8 @@ import HomeScreen from './screens/HomeScreen';
 import Header from './components/Header';
 import RegisterScreen from './screens/RegisterScreen';
 import SigninScreen from './screens/SigninScreen';
-
+import dotenv from 'dotenv';
+dotenv.config();
 
 function App() {
     

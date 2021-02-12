@@ -199,6 +199,7 @@ i:hover{
 .search-bar-dropdown {
 
     background-color: #fff;
+    cursor: pointer;
     float: left;
     overflow: hidden;
     transition: all 0.5s;
@@ -216,6 +217,20 @@ i:hover{
     left: 0;
     top: 70px;
     z-index: 4;
+    cursor: pointer;
+}
+
+.show{
+    display: unset;
+}
+.green{
+    background-color : rgb(40, 172, 40)
+}
+.whiteFont{
+    color: white
+}
+.blackFont{
+    color: black
 }
 .search-bar-dropdown-content div{
     
@@ -226,7 +241,10 @@ i:hover{
     border-width: 1px; border-color: rgb(175, 175, 182);
     
 }
-.search-bar-dropdown:hover {
+.search-bar-dropdown-content div:hover{
+    background-color :rgb(235, 232, 232);
+}
+.deactivatedDropDown:hover {
     background-color :rgb(235, 232, 232);
 }
 #sbdc-head {
