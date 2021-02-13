@@ -1,4 +1,5 @@
-import React,{ useState } from 'react';
+import React,{ useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 const apikey = '2865959f75b7484aab4478400e7239d4';
 
 export default function SearchBar(props) {
@@ -7,6 +8,7 @@ export default function SearchBar(props) {
     const [category, setCategory] = useState("All categories");
     const [icon, setIcon] = useState("fas fa-bars");
     const [userLocation,setLocation] = useState(null);
+    const [userInput,setInput] = useState(null);
     const handleDropDown = () => {
         setDropdown(!isDropdown);
     }
@@ -57,7 +59,17 @@ export default function SearchBar(props) {
         }
     }
 
-    getPosition();
+    useEffect( ()=>{
+        getPosition();
+    },[]);
+
+    const createQuery = () =>{
+        if(userInput){
+            return "/ad/?category="+category+"&location="+userLocation+"&input="+userInput;
+        }
+        return "/ad/?category="+category+"&location="+userLocation;
+    }
+
     return (
         <div className='search-bar-wrapper'>
         <div className={props.background ? 'search-form-wrapper' : 'search-form-wrapper noBackground'}> 
@@ -106,7 +118,12 @@ export default function SearchBar(props) {
                     <li className='search-bar-keyword'>
                         <div className='search-bar-wrapper'>
 
-                            <input placeholder="I'm looking for..." className='search-input' type="text"></input> 
+                            <input 
+                                onChange={(event) => {setInput(event.target.value)}}
+                                placeholder="I'm looking for..." 
+                                className='search-input' 
+                                type="text">
+                            </input> 
 
                         </div>
                     </li>
@@ -125,7 +142,10 @@ export default function SearchBar(props) {
                     </li>
                     <li className='search-bar-button'>
                         <div className='sbb-wrapper'>
-                            <i className="fas fa-search fa-2x"></i>
+                            <Link to={createQuery} >
+                                <i className="fas fa-search fa-2x"></i>
+                            </Link>
+                            
                         </div>
                                                       
                     </li>

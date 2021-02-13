@@ -8,8 +8,9 @@ export default function Header(props) {
     const history = useHistory();
     const dispatch = useDispatch();
     const covidlink= 'https://blog.gumtree.com.au/important-covid-19-update/';
-
+    const [isDropdown,setDropdown] = useState(false);
     const userSignin = useSelector((state) => state.userSignin);
+
     const { userInfo } = userSignin;
     // const redirectLink = useSelector((state) => state.redirectLink);
     // const { redirect } = redirectLink;
@@ -21,7 +22,9 @@ export default function Header(props) {
     // useEffect(() => {
     //     setRedirect(redirect)
     // },[redirect])
-
+    const handleDropDown = () => {
+        setDropdown(!isDropdown);
+    }
     return (
 
 
@@ -37,18 +40,38 @@ export default function Header(props) {
             </div>
             {userInfo 
                 ? (
-                    <button onClick={ signoutHandle }>
-                        signout
-                    </button>
+                    <div className="header-auth">
+                    
+                        <div onClick={handleDropDown} id='mydumbtree'>
+                            <i class="fas fa-user-circle fa-lg"></i>
+                            {userInfo.name}
+                            
+                            <div className={isDropdown ? "header-user-dropdown show" : "header-user-dropdown"}>
+                                <div className="header-user-name">  
+                                    {userInfo.name}
+                                </div>
+                                <div className="header-user-item">
+                                    <i class="far fa-image fa-2x"></i>
+                                    <div>My Ads</div>
+                                    
+                                </div>
+                                <hr></hr>
+                                <div onClick={ signoutHandle } className="header-user-item">
+                                    <i class="fas fa-sign-out-alt fa-2x"></i>
+                                    <div>Sign Out</div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    
                 )
                 : (
                     <div className="header-auth">
                         <Link to='/signin' >Sign in</Link>
                         <Link to='/register' >Register</Link>
-                        <div id='mydumbtree'>
-                            <i class="fas fa-user-circle fa-lg"></i>
-                            My Dumbtree
-                        </div>
                     </div>
 
             )}

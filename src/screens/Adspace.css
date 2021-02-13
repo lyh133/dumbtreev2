@@ -1,0 +1,86 @@
+.adspace-container{
+    position: relative;
+    height: 1600px;
+    width: 1240px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.adspace-cards{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 960px;
+    float: right;
+    top: 200px;
+}
+.adspace-card{
+    background-color:white;
+    position: relative;
+    display: flex;
+    height: 160px;
+    cursor: pointer;
+    margin-top: 2rem;
+}
+.adspace-img-wrap1{
+    width:240px;
+    overflow: hidden;
+    flex-wrap: wrap;
+}
+.adspace-img-wrap2{
+    display: flex;
+    width: 100%;
+    height: 10em;
+}
+.adspace-card-left{
+    padding: 11px 20px 12px;
+}
+.adspace-card-left-title:hover{
+    text-decoration: underline;
+}
+.adspace-card-left-desc{
+    resize: none;
+    border: none;
+    outline: none;
+    color: #666;
+    font-size: 14px;
+    line-height:1.4em;
+    margin-top:1rem;   
+}
+.adspace-card-right{
+    position: absolute;
+    right:60px;
+    padding: 2rem;
+}
+.adspace-card-right-price{
+    font-weight: bold;
+    font-size: 20px;
+}
+.adspace-card-right-nego{
+    font-weight: 500;
+    font-size: 12px;
+    padding-top: .5rem;
+    padding-left: .5rem;
+}
+.adspace-card-right-top{
+    display:flex;
+}
+
+.adspace-card-right-location{
+    font-size: 14px;
+    color: #9a9a9a;
+    padding-top:.5rem;
+}
+.adspace-card-right-date {
+    font-size: 14px;
+    color: #9a9a9a;
+    margin-top:5.5rem;
+}
+.adspace-card-right-watch{
+    position: relative;
+    color:#666;
+    left: 160px;
+    bottom:10px;
+}
+.adspace-card-right-watch:hover{
+    color:red;
+}

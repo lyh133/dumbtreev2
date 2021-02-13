@@ -103,9 +103,9 @@ footer{
 #mydumbtree i { 
     padding-right: 1rem;
 }
-a:hover{
+/* a:hover{
     filter: brightness(50%);
-}
+} */
 i:hover{
     filter: brightness(50%);
 }
@@ -218,6 +218,7 @@ i:hover{
     top: 70px;
     z-index: 4;
     cursor: pointer;
+    box-shadow: 6px 6px 6px rgba(0,0,0,.1);
 }
 
 .show{
