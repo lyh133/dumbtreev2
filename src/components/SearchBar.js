@@ -7,8 +7,12 @@ export default function SearchBar(props) {
     const [isDropdown, setDropdown] = useState(false);
     const [category, setCategory] = useState("All categories");
     const [icon, setIcon] = useState("fas fa-bars");
+    //this is api autofilled location
     const [userLocation,setLocation] = useState(null);
+    //this is user query input
     const [userInput,setInput] = useState(null);
+    //this is user's input in the location field
+    const [userLocationInput, setUserLocationInput] = useState(null);
     const handleDropDown = () => {
         setDropdown(!isDropdown);
     }
@@ -44,30 +48,34 @@ export default function SearchBar(props) {
         }
     }
     const getAddress = (lat,long) => {        
+        console.log("hwhh")
         fetch(`https://api.opencagedata.com/geocode/v1/json?q=${lat}+${long}&key=${apikey}`)
             .then(res => res.json())
             .then(address => setAddress(address))
+            .then(addresslist => updateLocation(addresslist) )
 
     }
     const setAddress = (address) => {
         const suburb = address.results[0].components.suburb ? address.results[0].components.suburb : ''
         const postcode = address.results[0].components.postcode ? address.results[0].components.postcode : '';
         const state = address.results[0].components.state_code ? address.results[0].components.state_code : '';
-        console.log(userLocation) 
-        if(userLocation === null){
-            setLocation([suburb,postcode,state])
-        }
+        
+
+        return [suburb,postcode,state];
+    }
+    const updateLocation = (location) => {
+        setLocation(location);
+        setUserLocationInput(location[0]+","+location[1]+","+location.[2]);
     }
 
     useEffect( ()=>{
         getPosition();
     },[]);
-
     const createQuery = () =>{
         if(userInput){
-            return "/ad/?category="+category+"&location="+userLocation+"&input="+userInput;
+            return "/ad?category="+category+"&location="+userLocationInput+"&input="+userInput;
         }
-        return "/ad/?category="+category+"&location="+userLocation;
+        return "/ad?category="+category+"&location="+userLocationInput;
     }
 
     return (
@@ -130,7 +138,14 @@ export default function SearchBar(props) {
                     <li className='search-bar-location'>
                         <div className='sbl-wrapper'>
                             <i className="fas fa-map-marker-alt"></i>
-                            {userLocation ? userLocation[0]+" "+userLocation[1] +","+userLocation[2] :null}
+                            <input
+                                defaultValue={userLocation ? userLocation : ''}
+                                onChange={(event) => {setUserLocationInput(event.target.value)}}
+                                >
+                                
+
+                            </input>
+
                         </div>
                     </li>
                     <li className='search-bar-distance'>
