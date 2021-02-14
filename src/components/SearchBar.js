@@ -20,7 +20,6 @@ export default function SearchBar(props) {
     const handleChangeCategory = (category, icon) => {
         setCategory(category);
         setIcon(icon);
-        getPosition();
     }
 
     const getPosition = () => {
@@ -48,7 +47,6 @@ export default function SearchBar(props) {
         }
     }
     const getAddress = (lat,long) => {        
-        console.log("hwhh")
         fetch(`https://api.opencagedata.com/geocode/v1/json?q=${lat}+${long}&key=${apikey}`)
             .then(res => res.json())
             .then(address => setAddress(address))
@@ -60,17 +58,17 @@ export default function SearchBar(props) {
         const postcode = address.results[0].components.postcode ? address.results[0].components.postcode : '';
         const state = address.results[0].components.state_code ? address.results[0].components.state_code : '';
         
-
         return [suburb,postcode,state];
     }
     const updateLocation = (location) => {
         setLocation(location);
-        setUserLocationInput(location[0]+","+location[1]+","+location.[2]);
+        setUserLocationInput(location[0]+","+location[1]+","+location[2]);
     }
 
     useEffect( ()=>{
         getPosition();
     },[]);
+
     const createQuery = () =>{
         if(userInput){
             return "/ad?category="+category+"&location="+userLocationInput+"&input="+userInput;
@@ -140,11 +138,8 @@ export default function SearchBar(props) {
                             <i className="fas fa-map-marker-alt"></i>
                             <input
                                 defaultValue={userLocation ? userLocation : ''}
-                                onChange={(event) => {setUserLocationInput(event.target.value)}}
-                                >
-                                
-
-                            </input>
+                                onChange={(event) => {setUserLocationInput(event.target.value)}}>                                
+                           </input>
 
                         </div>
                     </li>

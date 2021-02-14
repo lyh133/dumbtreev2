@@ -10,39 +10,62 @@ export default function AdspaceScreen(props) {
     const dispatch = useDispatch();
     const homeListings = useSelector((state) => state.homeListings);
     const { loading, error, listings } = homeListings;
-    var filteredList = listings;
+
     const params = new URLSearchParams(window.location.search)
 
 
 
     //searching item is done in the front-end for now
-    const filterCategory = () => {
+    const filterCategory = (list) => {
         const category=params.get('category')
         if(category !== "All categories"){
-            filteredList = listings.filter( i => { return i.category === category })
+            return list.filter( i => { return i.category === category })
         }
+        return list;
     }
 
-    const filterLocation = () => {
+    const filterLocation = (list) => {
+
         const location =params.get('location')
+        if(location === ''){
+            return list;
+        }
         var newlist = [];
         if(location !== null){
             const llist = location.split(',')
             for(var i=0; i<llist.length;i++){
                 
-                for(var j=0; j<filteredList.length; j++){
+                for(var j=0; j<list.length; j++){
 
-                    if(filteredList[j].location.includes(llist[i])){
-                        newlist.push(filteredList[j])
+                    if(list[j].location.includes(llist[i])){
+                        newlist.push(list[j])
                     }
                 }
             }
         }
-        filteredList=newlist;   
+        return newlist;  
+    }
+    const filterKeyword = (list) => {
+        
+        const input =params.get('input');
+        if(input === null) {
+            return list;
+        }
+        var newlist = [];
+        for(var i=0; i<list.length; i++){
+            console.log(list[i].title)
+            console.log(input)
+            if(list[i].title.includes(input)){
+
+                newlist.push(list[i]);
+            }
+        }
+        return newlist;
     }
 
-    filterLocation();
-    filterCategory();
+    const applySearchFilter = (list) => {
+        return filterKeyword(filterLocation(filterCategory(list)))
+    }
 
     return(
         <>
@@ -52,9 +75,9 @@ export default function AdspaceScreen(props) {
                 : 
                 error ? (<MessageBox variant="danger">{error}</MessageBox>)
                 :
-                filteredList ? (
+                listings ? (
                     <>
-                        {filteredList.map(listing =>(                    
+                        {applySearchFilter(listings).map(listing =>(                    
                             <Adcard 
                                 image={listing.image} 
                                 title={listing.title}
