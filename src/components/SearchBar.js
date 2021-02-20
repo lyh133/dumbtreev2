@@ -7,8 +7,9 @@ export default function SearchBar(props) {
     const [isDropdown, setDropdown] = useState(false);
     const [category, setCategory] = useState("All categories");
     const [icon, setIcon] = useState("fas fa-bars");
-    //this is api autofilled location
-    const [userLocation,setLocation] = useState(null);
+    //this is api autofilled location it autofills at first render
+    var defaultLocation = '';
+    var firsttime = true;
     //this is user query input
     const [userInput,setInput] = useState(null);
     //this is user's input in the location field
@@ -61,10 +62,10 @@ export default function SearchBar(props) {
         return [suburb,postcode,state];
     }
     const updateLocation = (location) => {
-        setLocation(location);
+        defaultLocation=location;
         setUserLocationInput(location[0]+","+location[1]+","+location[2]);
+        
     }
-
     useEffect( ()=>{
         getPosition();
     },[]);
@@ -76,6 +77,13 @@ export default function SearchBar(props) {
         return "/ad?category="+category+"&location="+userLocationInput;
     }
 
+    const isfirsttime = () => {
+        if(firsttime){
+            firsttime = false;
+            return true;        
+        }
+        return false;
+    }
     return (
         <div className='search-bar-wrapper'>
         <div className={props.background ? 'search-form-wrapper' : 'search-form-wrapper noBackground'}> 
@@ -137,7 +145,14 @@ export default function SearchBar(props) {
                         <div className='sbl-wrapper'>
                             <i className="fas fa-map-marker-alt"></i>
                             <input
-                                defaultValue={userLocation ? userLocation : ''}
+                                value={
+                                    userLocationInput 
+                                    ? userLocationInput
+                                    : isfirsttime() 
+                                    ? defaultLocation
+                                    : null
+                                
+                                }
                                 onChange={(event) => {setUserLocationInput(event.target.value)}}>                                
                            </input>
 
@@ -152,6 +167,7 @@ export default function SearchBar(props) {
                     </li>
                     <li className='search-bar-button'>
                         <div className='sbb-wrapper'>
+        
                             <Link to={createQuery} >
                                 <i className="fas fa-search fa-2x"></i>
                             </Link>

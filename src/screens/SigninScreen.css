@@ -53,8 +53,8 @@ h1{
     flex-direction: column;
     width: 40%;
 }
-input:nth-child(2) {
-    margin-bottom: 5rem;
+.signin-form-button {
+    margin-top: 3rem;
 }
 
 .input-active:invalid{

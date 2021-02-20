@@ -4,7 +4,13 @@ import { HOME_LISTINGS_REQUEST,
          HOME_LISTINGS_FAIL,
          LISTING_ID_REQUEST,
          LISTING_ID_SUCCESS,
-         LISTING_ID_FAIL
+         LISTING_ID_FAIL,
+         CREATE_LISTING_REQUEST,
+         CREATE_LISTING_SUCCESS,
+         CREATE_LISTING_FAIL,
+         UPLOAD_FILE_REQUEST,
+         UPLOAD_FILE_FAIL,
+         UPLOAD_FILE_SUCCESS
                         
         } from "../constants/listingConstants";
 
@@ -19,7 +25,6 @@ export const Listings_all = () => async (dispatch) => {
         dispatch({type: HOME_LISTINGS_FAIL, payload: error.message})
     }
 }
-//todo
 
 export const Listing_Id = (id) => async (dispatch) => {
 
@@ -39,6 +44,48 @@ export const Listing_Id = (id) => async (dispatch) => {
                 )})
     }
 }
+export const createListing = (title,category,image,price,location,detail,negotiable,condition,dateListed) => async (dispatch) => {
+
+    dispatch({ type: CREATE_LISTING_REQUEST, payload: {title,category,image,price,location,detail,negotiable,condition,dateListed} });
+
+    try {
+        const {data} = await Axios.post('/api/listings/create',({title,category,image,price,location,detail,negotiable,condition,dateListed}));
+        dispatch({type: CREATE_LISTING_SUCCESS, payload: data})
+    } catch (error) {
+        dispatch({ type: CREATE_LISTING_FAIL, payload:(
+            error.response && error.response.data.message 
+            ? error.response.data.message 
+            : error.message)})
+    }
+
+}
+
+
+export const uploadFile = (file) => async (dispatch) => {
+
+    dispatch({ type: UPLOAD_FILE_REQUEST});
+    console.log(file)
+    try {
+        const formData = new FormData();
+        formData.append('file',file)
+        const {data} = await Axios.post('/api/listings/upload',formData,{
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }})
+        dispatch({ type: UPLOAD_FILE_SUCCESS, payload: data})
+    } catch (error) {
+        dispatch({ type: UPLOAD_FILE_FAIL, payload:(
+            error.response && error.response.data.message 
+            ? error.response.data.message 
+            : error.message)})
+    }
+
+}
+
+
+
+
+
 //save view history onto localstorage
 const saveViewHistory = (id) => {
     const viewHistoryList = JSON.parse(localStorage.getItem("viewHistory"));
@@ -54,4 +101,3 @@ const saveViewHistory = (id) => {
 }
 
 
-//todo

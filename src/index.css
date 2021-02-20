@@ -91,6 +91,33 @@ footer{
     padding-right: 4rem;
     
 }
+
+.main-postad{
+    display: flex;
+    position: relative;
+    left:50%;
+    top:5%;
+    transform: translateX(510px);
+    z-index: 5;
+    height:50px;
+    width:140px;
+    background-color: #3baa33;
+    color: #fff;
+    transition: all 0.5s;
+    cursor: pointer;
+    
+}
+.main-postad:hover{
+    background-color: #277222;
+}
+.main-postad div{
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 1.7rem;
+    margin-left:2.6rem;
+}
+
+
 #mydumbtree {
     position: relative;
     bottom: 5px;
@@ -131,7 +158,6 @@ i:hover{
     left:30%;
     z-index: 2;
 }
-
 
 /*search form*/
 .search-bar-list{
@@ -287,6 +313,9 @@ i:hover{
 .sbl-wrapper input {
     border-width:0px;
     border:none;
+}
+.sbl-wrapper input:focus {
+    outline: none;
 }
 .sbd-wrapper {
     padding: 2.5rem 1.5rem 2.5rem 1.5rem;

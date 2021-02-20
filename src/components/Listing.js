@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import reactDom from 'react-dom';
+import { Link } from 'react-router-dom';
 export default function Listing(props) {
 
     const { listing } = props;
@@ -67,9 +69,9 @@ export default function Listing(props) {
         <div className='content-items'>
         <div key={listing._id} className='item-card'>
         <div className='card-thumb'>
-            <a href={`/listings/${listing._id}`} className='thumb-link'>
+            <Link to={`/listings/${listing._id}`} className='thumb-link'>
                 <img className='thumb' src={listing.image} alt={listing.title}></img>
-            </a>
+            </Link>
 
         </div>
         <div className='card-detail'>

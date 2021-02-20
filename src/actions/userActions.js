@@ -3,7 +3,7 @@ import { USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_
 
 
 export const SignIn = (email,password) => async (dispatch) => {
-    console.log("hey")
+
     dispatch({ type: USER_SIGNIN_REQUEST,payload: {email,password} });
     try {
         const {data} = await Axios.post('/api/users/signin',({ email,password }));

@@ -4,7 +4,7 @@ import MessageBox from '../components/MessageBox';
 import LoadingBox from '../components/LoadingBox';
 import { useSelector, useDispatch } from 'react-redux';
 import { Listings_all } from '../actions/listingActions';
-import { useHistory } from "react-router-dom";
+import { useHistory,Link } from "react-router-dom";
 import SearchBar from '../components/SearchBar';
 
 export default function HomeScreen() {
@@ -13,7 +13,8 @@ export default function HomeScreen() {
     const history = useHistory();
     const homeListings = useSelector((state) => state.homeListings);
     const { loading, error, listings } = homeListings;
-    
+    const userSignin = useSelector((state) => state.userSignin);
+    const { userInfo } = userSignin;
 
     //activeTab is to change tab button styles 
     const [activeTab, setactiveTab] = useState(1);
@@ -56,12 +57,20 @@ export default function HomeScreen() {
     const refreshPage = ()=>{
         window.location.reload();
      }
+    
     return (
         <>
         <div className='main-panel'>
             <img onClick={refreshPage} className="main-bg mouse-pointer" src="./images/ddt.jpg" alt=""></img>
             <img onClick={refreshPage} className="main-logo mouse-pointer" src="./images/gt.png" alt=""></img>
 
+            <Link to={userInfo ? './create' : './signin'} className='main-postad'>               
+                <div >
+                    <i class="fas fa-circle fa-xs"></i>
+                    <span>     Post an Ad</span>                 
+                </div>
+            </Link>
+            
             <SearchBar background={true}/>
         </div>
         

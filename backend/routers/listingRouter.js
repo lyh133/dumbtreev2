@@ -2,8 +2,9 @@ import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import data from '../data.js';
 import Listing from '../models/listingModel.js'; 
-
+import process from 'process';
 const listingRouter = express.Router();
+
 listingRouter.get('/', expressAsyncHandler(async (req,res) => {
     const listings = await Listing.find({});
     res.send(listings);
@@ -24,4 +25,54 @@ listingRouter.get('/:id', expressAsyncHandler(async (req,res) => {
     }
     
 }));
+
+
+listingRouter.post('/create', expressAsyncHandler(async (req,res) => {
+
+    const new_listing = await Listing.create({
+        title: req.body.title,
+        category: req.body.category,
+        image: req.body.image,
+        price: req.body.price,
+        location: req.body.location,
+        detail: req.body.detail,
+        negotiable: req.body.negotiable,
+        condition: req.body.condition,
+        dateListed: req.body.dateListed,
+    });
+    if(!new_listing) {
+        res.status(500).send( {message: 'error creating listing'} );
+    }
+    res.send({
+        id: new_listing._id,
+        title: req.body.title,
+        category: req.body.category,
+        image: req.body.image,
+        price: req.body.price,
+        location: req.body.location,
+        detail: req.body.detail,
+        negotiable: req.body.negotiable,
+        condition: req.body.condition,
+        dateListed: req.body.dateListed,
+    })
+
+}));
+
+listingRouter.post('/upload', (req,res) => {
+    console.log(1);
+
+    if(req.files === null) {
+        return res.status(400).send({message: 'No file uploaded'})
+    }
+    const file = req.files.file;
+    
+    file.mv(`../public/uploads/${file.name}`, err=>{
+        if(err) {
+            console.error(err);
+            return res.status(400).send(err);
+        }
+    })
+    res.send({fileName: file.name, filePath: `/uploads/${file.name}` })
+
+});
 export default listingRouter;

@@ -64,6 +64,7 @@ export default function SigninScreen(props) {
 
 
                             <button 
+                                className="signin-form-button"
                                 type="submit" 
                             > Sign in</button>
                         </form>

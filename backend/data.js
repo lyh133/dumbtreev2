@@ -58,7 +58,7 @@ const data = {
             image: './images/doll.jpg',
             price: '4000',
             location: 'Melborne',
-            detail: 'CPU: i7 9750H GPU: 1660ti. selling my used laptop due to upgrading',
+            detail: 'This is the first doll from Gynoid Tech that has all fixed limbs. \n\nNo arm or thigh seams on Elena. \n\nHer head is not fixed and therefore her head can be interchanged with others from the Gynoid Tech range. \n\nElena has the new Gynoid metal hand skeleton which is a world first.',
             condition: 'Used',
             dateListed: '05/02/2021',
             negotiable: false

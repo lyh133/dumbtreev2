@@ -3,11 +3,13 @@ import userRouter from './routers/userRouter.js';
 import listingRouter from './routers/listingRouter.js';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import  fileUpload  from 'express-fileupload';
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
+app.use(fileUpload());
 mongoose.connect(process.env.MONGODB_URL ||'mongodb://localhost/dumbtree',{
     useNewUrlParser: true,
     useUnifiedTopology: true,

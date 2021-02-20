@@ -6,8 +6,10 @@ import {
 } from 'redux';
 import thunk from 'redux-thunk';
 import {
+    CreateListingReducer,
     homeListingReducer,
     ListingPageReducer,
+    UploadFileReducer,
 } from './reducers/listingReducers';
 import { redirectLinkReducer } from './reducers/redirectReducers';
 import {
@@ -24,7 +26,9 @@ const reducer = combineReducers({
     homeListings: homeListingReducer,
     ListingPage: ListingPageReducer,
     userSignin: userSigninReducer,
-    redirectLink: redirectLinkReducer
+    createListing: CreateListingReducer,
+    UploadFile: UploadFileReducer,
+    redirectLink: redirectLinkReducer,
 })
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

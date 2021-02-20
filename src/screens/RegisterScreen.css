@@ -53,9 +53,7 @@ h1{
     flex-direction: column;
     width: 40%;
 }
-input:nth-child(2) {
-    margin-bottom: 5rem;
-}
+
 
 .input-active:invalid{
     border-color: red;
