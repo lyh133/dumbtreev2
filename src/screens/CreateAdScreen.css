@@ -129,6 +129,7 @@
     transition: all 0.5s;
     border-radius: 5px;
     border:none;
+    cursor: pointer;
 }
 .createad-postbutton:hover{
     background-color:green

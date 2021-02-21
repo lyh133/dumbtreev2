@@ -44,11 +44,12 @@ export const Listing_Id = (id) => async (dispatch) => {
                 )})
     }
 }
-export const createListing = (title,category,image,price,location,detail,negotiable,condition,dateListed) => async (dispatch) => {
-
+export const createListing = (title,category,image,price,location,detail,negotiable,condition) => async (dispatch) => {
+    let dateListed = new Date().toISOString().slice(0, 10);
     dispatch({ type: CREATE_LISTING_REQUEST, payload: {title,category,image,price,location,detail,negotiable,condition,dateListed} });
 
     try {
+        
         const {data} = await Axios.post('/api/listings/create',({title,category,image,price,location,detail,negotiable,condition,dateListed}));
         dispatch({type: CREATE_LISTING_SUCCESS, payload: data})
     } catch (error) {

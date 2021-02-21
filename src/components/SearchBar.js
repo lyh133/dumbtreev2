@@ -1,7 +1,6 @@
 import React,{ useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-const apikey = '2865959f75b7484aab4478400e7239d4';
-
+import { getLocation } from '../utils/GetLocation';
 export default function SearchBar(props) {
 
     const [isDropdown, setDropdown] = useState(false);
@@ -14,6 +13,7 @@ export default function SearchBar(props) {
     const [userInput,setInput] = useState(null);
     //this is user's input in the location field
     const [userLocationInput, setUserLocationInput] = useState(null);
+
     const handleDropDown = () => {
         setDropdown(!isDropdown);
     }
@@ -23,51 +23,14 @@ export default function SearchBar(props) {
         setIcon(icon);
     }
 
-    const getPosition = () => {
-        if(window.navigator.geolocation) {
-            window.navigator.geolocation
-            .getCurrentPosition(showPosition, posError);
-        }
-    }
-
-    const showPosition = (positions) => {
-        let lat = positions.coords.latitude;
-        let long = positions.coords.longitude;
-        getAddress(lat,long)
-
-    }
-    const posError = () => {
-        if(window.navigator.permissions){
-            window.navigator.permissions.query( { name: 'geolocation' }).then(res =>{
-                if(res.state ==='denied'){
-                    alert('Enable location permission in browser setting to use location')
-                }
-            })
-        } else {
-            alert('Unable to access your location')
-        }
-    }
-    const getAddress = (lat,long) => {        
-        fetch(`https://api.opencagedata.com/geocode/v1/json?q=${lat}+${long}&key=${apikey}`)
-            .then(res => res.json())
-            .then(address => setAddress(address))
-            .then(addresslist => updateLocation(addresslist) )
-
-    }
-    const setAddress = (address) => {
-        const suburb = address.results[0].components.suburb ? address.results[0].components.suburb : ''
-        const postcode = address.results[0].components.postcode ? address.results[0].components.postcode : '';
-        const state = address.results[0].components.state_code ? address.results[0].components.state_code : '';
-        
-        return [suburb,postcode,state];
-    }
     const updateLocation = (location) => {
         defaultLocation=location;
-        setUserLocationInput(location[0]+","+location[1]+","+location[2]);
+        setUserLocationInput(location);
         
     }
+    //this runs once to get the user's location
     useEffect( ()=>{
-        getPosition();
+        getLocation(updateLocation);
     },[]);
 
     const createQuery = () =>{

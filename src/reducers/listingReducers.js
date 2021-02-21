@@ -47,6 +47,7 @@ export const CreateListingReducer = (state = { listing: [] }, action) => {
         case CREATE_LISTING_REQUEST:
             return {loading: true};
         case CREATE_LISTING_SUCCESS:
+            console.log("success")
             return {loading: false, listing: action.payload}
         case CREATE_LISTING_FAIL:
             return {loading: false, error: action.payload}

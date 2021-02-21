@@ -29,6 +29,9 @@ listingRouter.get('/:id', expressAsyncHandler(async (req,res) => {
 
 listingRouter.post('/create', expressAsyncHandler(async (req,res) => {
 
+    console.log(req.body.title,req.body.category,req.body.image,req.body.price,req.body.location,req.body.detail, req.body.negotiable,req.body.condition,req.body.dateListed)
+
+
     const new_listing = await Listing.create({
         title: req.body.title,
         category: req.body.category,
@@ -43,6 +46,8 @@ listingRouter.post('/create', expressAsyncHandler(async (req,res) => {
     if(!new_listing) {
         res.status(500).send( {message: 'error creating listing'} );
     }
+
+
     res.send({
         id: new_listing._id,
         title: req.body.title,
@@ -59,14 +64,13 @@ listingRouter.post('/create', expressAsyncHandler(async (req,res) => {
 }));
 
 listingRouter.post('/upload', (req,res) => {
-    console.log(1);
 
     if(req.files === null) {
         return res.status(400).send({message: 'No file uploaded'})
     }
     const file = req.files.file;
-    
-    file.mv(`../public/uploads/${file.name}`, err=>{
+    console.log(file.name)
+    file.mv(`../public/images/${file.name}`, err=>{
         if(err) {
             console.error(err);
             return res.status(400).send(err);

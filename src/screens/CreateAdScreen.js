@@ -3,20 +3,75 @@ import { useDispatch,useSelector } from 'react-redux';
 import Header2 from '../components/Header2';
 import ImageUploader from 'react-images-upload';
 import './CreateAdScreen.css';
+import { getLocation } from '../utils/GetLocation';
 import { uploadFile,createListing } from '../actions/listingActions';
+import { useHistory } from 'react-router-dom';
 
 //dispatch(uploadFile(Files[0]))
 export default function CreateAdScreen(props) {
+
     const dispatch = useDispatch();
+    const history = useHistory();
     const [price,setPrice] = useState(0);
     const [nego,setNego] = useState(false);
     const [image,setImage] =useState();
+    const [title,setTitle] = useState('');
+    const [category,setCategory] = useState('Miscellaneous');
+    const [condition,setCondition] = useState('Used');
+    const [description,setDescription] = useState('');
+    const [location,setLocation] = useState('');
 
+    //checks for parameters and then dispatch action to upload photo and ad
     const handleSubmit = () =>{
+
+        if(title === ''){
+            alert('Please Enter Ad title');
+            return
+        }
+        if(description === ''){
+            alert('Please Enter Ad description');
+            return
+        }
+        if(image === undefined){
+            alert('Please upload cover image');
+            return
+        }
+        if(location === ''){
+            alert('Ad location is not specified');
+            return
+        }
+        
         dispatch(uploadFile(image));
-        //TODO
-        createListing()
+
+        dispatch(createListing(
+            title,
+            category,
+            './images/'+image.name,
+            price,
+            location,
+            description,
+            nego,
+            condition,               
+        ))
+        history.push('/');
+
     }
+
+
+    
+    //this runs once to get the user's location
+    useEffect( ()=>{
+        getLocation(setLocation);
+    },[]);
+
+    // useEffect(() => {
+    //     if(listing !== undefined){
+    //         console.log(listing.id)
+    //         history.push("/listings/"+listing.id)
+
+    //     }
+    // },[listing])
+
 
     return (
         <div className="createad-container">
@@ -30,7 +85,9 @@ export default function CreateAdScreen(props) {
 
                 <div className="createad-attri-contain">
                     <div className = "createad-title">Title</div>
-                    <input className = "createad-title-input"></input>
+                    <input
+                        onChange = {(e) => {setTitle(e.target.value)}} 
+                        className = "createad-title-input"></input>
                     <div className = "createad-tip">
                         <div className = "createad-tip-content">
                             <span><i class="fas fa-pencil-alt fa-2x"></i></span>
@@ -45,10 +102,10 @@ export default function CreateAdScreen(props) {
                 <div className = "createad-attri-contain">
                     <div className = "createad-title">Category</div>
                     <div className = "creatad-dropdown">
-                        <select>
-                            <option value="0">Miscellaneous</option>
-                            <option value="1">Electronics</option>
-                            <option value="2">Vehicles</option>
+                        <select onChange = { (e) => setCategory(e.target.value) }>
+                            <option value="Miscellaneous">Miscellaneous</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Vehicles">Vehicles</option>
                         </select>
                     
                     </div>
@@ -80,10 +137,10 @@ export default function CreateAdScreen(props) {
                 <div className = "createad-attri-contain">
                     <div className = "createad-title">Condition</div>
                     <div className = "creatad-dropdown createad-condition">
-                        <select>
-                            <option value="0">Used</option>
-                            <option value="1">New</option>
-                            <option value="2">Faulty</option>
+                        <select onChange={(e)=>{setCondition(e.target.value)}}>
+                            <option value="Used">Used</option>
+                            <option value="New">New</option>
+                            <option value="Faulty">Faulty</option>
                         </select>
                     
                     </div>
@@ -101,7 +158,9 @@ export default function CreateAdScreen(props) {
 
                 <div className = "createad-attri-contain">
                 <div className = "createad-title">Description</div>
-                    <textarea className="createad-textarea"/>
+                    <textarea
+                        onChange={(e)=>setDescription(e.target.value)} 
+                        className="createad-textarea"/>
                 </div>
                 <hr className = "createad-hr"></hr>
 
